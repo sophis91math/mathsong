@@ -1,0 +1,34 @@
+rules_version = '2';
+// Firebase 콘솔 > Firestore Database > 규칙(Rules) 탭에 이 내용을 통째로 붙여넣고 [게시]를 누르세요.
+// 아래 TEACHER@gmail.com 을 선생님 구글 계정 이메일로 바꾸세요. (firebase-config.js의 TEACHER_EMAIL과 같게)
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isTeacher() {
+      return request.auth != null
+        && request.auth.token.email == "TEACHER@gmail.com"
+        && request.auth.token.email_verified == true;
+    }
+
+    function shortText(field, max) {
+      return request.resource.data[field] is string && request.resource.data[field].size() <= max;
+    }
+
+    match /submissions/{id} {
+      // 학생: 로그인 없이 "새로 제출"만 가능. 다른 사람 가사를 읽거나 고치거나 지울 수 없음.
+      allow create: if request.resource.data.keys().hasOnly(
+                         ['cls','num1','name1','num2','name2','unit','styleId','stylePrompt','title','lyrics','sunoUrl','createdAt'])
+                    && shortText('cls', 3) && shortText('num1', 3) && shortText('name1', 10)
+                    && shortText('num2', 3) && shortText('name2', 10)
+                    && shortText('unit', 20) && shortText('styleId', 20)
+                    && shortText('stylePrompt', 200) && shortText('title', 40)
+                    && shortText('lyrics', 5000) && shortText('sunoUrl', 300)
+                    && request.resource.data.name1.size() > 0
+                    && request.resource.data.createdAt == request.time;
+
+      // 선생님: 모두 읽기, 지우기
+      allow read, delete: if isTeacher();
+      allow update: if false;
+    }
+  }
+}

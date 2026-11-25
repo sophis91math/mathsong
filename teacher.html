@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>수학송 모아보기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>수학송 <span class="x">모아보기</span></h1>
+      <p class="sub">학생들이 제출한 가사를 한곳에서 봅니다 (선생님 전용)</p>
+    </div>
+    <div class="row" style="align-items:center">
+      <span class="hint" id="who"></span>
+      <button class="btn primary" id="loginBtn" hidden>구글로 로그인</button>
+      <button class="btn" id="logoutBtn" hidden>로그아웃</button>
+    </div>
+  </header>
+
+  <div id="state" class="notice" hidden></div>
+
+  <section class="step" id="board" hidden>
+    <div class="step-h"><span class="n">♪</span><h2>제출된 가사</h2></div>
+    <div class="step-b">
+      <div class="row">
+        <div class="field"><label for="fCls">반</label><select id="fCls" class="w-cls"></select></div>
+        <div class="field"><label for="fUnit">단원</label><select id="fUnit"></select></div>
+        <div class="field"><label for="fSort">정렬</label><select id="fSort">
+          <option value="new">최근 제출 순</option><option value="num">반·번호 순</option></select></div>
+        <div class="field grow"><label for="fQ">검색</label><input type="text" id="fQ" placeholder="이름, 제목, 가사"></div>
+      </div>
+      <div class="row" style="align-items:center;justify-content:space-between">
+        <label class="hint" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="fLatest" checked> 같은 팀이 여러 번 냈으면 가장 최근 것만 보기</label>
+        <button class="btn sm" id="cpVisible">보이는 가사 모두 복사</button>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div class="subs" id="subs"><div class="empty">불러오는 중…</div></div>
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast" hidden></div>
+<script type="module" src="teacher.js"></script>
+</body>
+</html>

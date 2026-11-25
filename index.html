@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>수학송 가사 스튜디오</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>수학송 <span class="x">가사 스튜디오</span></h1>
+      <p class="sub">중3 수학 단원으로 가사를 쓰고, Suno로 우리만의 노래 만들기</p>
+    </div>
+  </header>
+
+  <main id="view-student" class="wrap" style="padding:0;max-width:none">
+
+    <section class="step" aria-labelledby="h1s">
+      <div class="step-h"><span class="n">1</span><h2 id="h1s">우리 팀 정보</h2></div>
+      <div class="step-b">
+        <p class="hint">혼자 하면 1명만, 짝과 함께라면 2명 모두 적어요.</p>
+        <div class="row">
+          <div class="field"><label for="cls">반</label>
+            <select id="cls" class="w-cls"></select></div>
+        </div>
+        <div class="pair">
+          <div class="who">학생 1</div>
+          <div class="field"><label for="num1">번호</label><input type="text" inputmode="numeric" id="num1" class="w-num" maxlength="3" placeholder="7"></div>
+          <div class="field"><label for="name1">이름</label><input type="text" id="name1" class="w-name" maxlength="10" placeholder="김수학"></div>
+        </div>
+        <div class="pair">
+          <div class="who">학생 2 <span style="font-weight:400;color:var(--muted)">(짝이 있을 때만)</span></div>
+          <div class="field"><label for="num2">번호</label><input type="text" inputmode="numeric" id="num2" class="w-num" maxlength="3"></div>
+          <div class="field"><label for="name2">이름</label><input type="text" id="name2" class="w-name" maxlength="10"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" aria-labelledby="h2s">
+      <div class="step-h"><span class="n">2</span><h2 id="h2s">노래로 만들 단원 고르기</h2></div>
+      <div class="step-b">
+        <div class="units" id="units"></div>
+        <div class="concepts" id="concepts" hidden></div>
+      </div>
+    </section>
+
+    <section class="step" aria-labelledby="h3s">
+      <div class="step-h"><span class="n">3</span><h2 id="h3s">노래 스타일 고르기 (예시 10가지)</h2></div>
+      <div class="step-b">
+        <p class="hint">Suno는 <b>스타일 설명을 영어로</b> 적을 때 잘 알아들어요. 마음에 드는 카드를 고르고, 영어 문장은 그대로 쓰거나 단어를 바꿔도 돼요. 카드 아래 가사는 그 스타일로 쓴 짧은 예시예요.</p>
+        <div class="styles" id="styles"></div>
+        <div class="field"><label for="stylePrompt">우리 노래 스타일 (영어, 직접 고쳐도 돼요)</label>
+          <input type="text" id="stylePrompt" maxlength="200" placeholder="예: K-pop, upbeat dance pop, catchy chorus, female vocal"></div>
+      </div>
+    </section>
+
+    <section class="step" aria-labelledby="h4s">
+      <div class="step-h"><span class="n">4</span><h2 id="h4s">가사 쓰기</h2></div>
+      <div class="step-b">
+        <div class="field"><label for="title">노래 제목</label><input type="text" id="title" maxlength="40" placeholder="예: 근의 공식 챌린지"></div>
+        <div class="tagbar"><span>구간 표시 넣기</span>
+          <button class="btn sm" data-tag="[Intro]">[Intro] 전주</button>
+          <button class="btn sm" data-tag="[Verse]">[Verse] 절</button>
+          <button class="btn sm" data-tag="[Pre-Chorus]">[Pre-Chorus]</button>
+          <button class="btn sm" data-tag="[Chorus]">[Chorus] 후렴</button>
+          <button class="btn sm" data-tag="[Bridge]">[Bridge] 브릿지</button>
+          <button class="btn sm" data-tag="[Outro]">[Outro] 마무리</button>
+          <button class="btn sm" id="tplBtn">뼈대 한 번에 넣기</button>
+        </div>
+        <textarea id="lyrics" placeholder="[Verse]&#10;여기에 1절 가사를 써요&#10;&#10;[Chorus]&#10;가장 중요한 공식이나 개념을 반복해요"></textarea>
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <div class="checks" id="checks"></div>
+          <span class="count" id="count">0자</span>
+        </div>
+        <p class="hint">팁: 후렴(Chorus)에 꼭 외워야 할 공식이나 개념을 넣고 2번 이상 반복하면 기억에 잘 남아요. 수식은 소리 나는 대로 써 주세요. (예: 루트 이 → "루트 이", x² → "엑스 제곱")</p>
+      </div>
+    </section>
+
+    <section class="step" aria-labelledby="h5s">
+      <div class="step-h"><span class="n">5</span><h2 id="h5s">Suno에서 노래 만들기</h2></div>
+      <div class="step-b">
+        <ol class="howto">
+          <li><a href="https://suno.com/create" target="_blank" rel="noopener">suno.com/create</a>에 들어가 로그인해요.</li>
+          <li><code>Custom</code> (또는 Advanced) 모드를 켜요.</li>
+          <li>아래 <b>가사 복사</b>를 눌러 <code>Lyrics</code> 칸에 붙여넣어요.</li>
+          <li><b>스타일 복사</b>를 눌러 <code>Style of Music</code> 칸에 붙여넣어요.</li>
+          <li><b>제목 복사</b>를 눌러 <code>Title</code> 칸에 붙여넣고 <code>Create</code>를 눌러요.</li>
+          <li>노래 두 곡이 나오면 들어 보고 마음에 드는 곡의 공유 링크(Share → Copy link)를 아래 6번에 붙여넣어요.</li>
+        </ol>
+        <div class="copyrow">
+          <button class="btn primary" id="cpLyrics">가사 복사</button>
+          <button class="btn primary" id="cpStyle">스타일 복사</button>
+          <button class="btn primary" id="cpTitle">제목 복사</button>
+          <a class="btn" href="https://suno.com/create" target="_blank" rel="noopener">Suno 열기 ↗</a>
+        </div>
+        <p class="hint">발음이 이상하면 가사 철자를 소리 나는 대로 바꾸거나, 띄어쓰기를 바꿔서 다시 만들어 보세요.</p>
+      </div>
+    </section>
+
+    <section class="step" aria-labelledby="h6s">
+      <div class="step-h"><span class="n">6</span><h2 id="h6s">선생님께 제출하기</h2></div>
+      <div class="step-b">
+        <div class="field"><label for="sunoUrl">Suno 노래 링크 (만들었다면)</label>
+          <input type="url" id="sunoUrl" maxlength="300" placeholder="https://suno.com/s/..."></div>
+        <div id="submitState" class="notice" hidden></div>
+        <div class="copyrow">
+          <button class="btn primary" id="submitBtn">가사 제출하기</button>
+          <button class="btn" id="cpAll">제출 내용 전체 복사</button>
+        </div>
+        <p class="hint">고칠 게 있으면 고쳐서 다시 제출해도 돼요. 선생님은 가장 최근에 낸 것을 먼저 봐요. 노래 링크도 나중에 넣어서 다시 제출하면 돼요.</p>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
