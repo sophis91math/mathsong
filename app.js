@@ -75,7 +75,7 @@ $("cpTitle").onclick=()=>{ const v=$("title").value.trim(); if(!v){ toast("먼�
 $("padletLink").href = PADLET_URL || "https://padlet.com";
 function padletReady(){
   const o=collect(); const msg=[];
-  if(!o.title) msg.push("4단계에서 노래 제목을 써 주세요.");
+  if(!o.cls) msg.push("1단계에서 반을 골라 주세요."); if(!o.title) msg.push("4단계에서 노래 제목을 써 주세요.");
   if(!o.lyrics.trim()) msg.push("4단계에서 가사를 써 주세요.");
   if(!/^https:\/\//.test(o.sunoUrl)) msg.push("위 칸에 Suno 노래 링크(https://로 시작)를 넣어 주세요.");
   const s=$("padletState"); s.textContent=msg.join(" "); s.hidden=!msg.length;
@@ -87,3 +87,12 @@ $("cpPadTitle").onclick=()=>{ const o=padletReady(); if(o) copy(padTitle(o),"패
 $("cpPadBody").onclick=()=>{ const o=padletReady(); if(o) copy(padBody(o),"가사와 링크"); };
 
 loadDraft(); renderUnits(); renderStyles(); updateChecks();
+
+// 패들렛: 우리 반 열 안내
+function updatePadletWhere(){
+  const c=$("cls").value; const w=$("padletWhere");
+  document.querySelectorAll(".padCls").forEach(e=>e.textContent=c?c+"반":"우리 반");
+  if(c){ w.textContent="패들렛의 ‘"+c+"반’ 열 아래 + 버튼을 눌러 올려요. 다른 반 열에 올리지 않도록 조심!"; w.className="notice"; }
+  else { w.textContent="1단계에서 반을 먼저 골라 주세요. 패들렛에는 자기 반 열에 올려야 해요."; w.className="notice warn"; }
+}
+$("cls").addEventListener("change",updatePadletWhere); updatePadletWhere();
