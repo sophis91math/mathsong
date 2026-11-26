@@ -44,3 +44,40 @@ export const STYLES=[
  {id:"carol",name:"겨울 캐롤",feel:"학기 끝, 연말 분위기! 방울 소리 가득한 노래",prompt:"Christmas pop, jingle bells, cheerful choir, festive, sleigh bells, warm and happy",
   sample:"[Chorus]\n꼭짓점은 피 큐, 축은 엑스 이퀄 피\n종이 울리면 포물선을 그려요",fit:"이차함수와 그래프"}
 ];
+
+// 선생님이 만든 완성 예시 (학생 화면 맨 위에 보여요)
+export const EXAMPLE = {
+  title: "동그라미 공식",
+  unit: "원의 성질",
+  style: "K-pop, upbeat, bright synth, catchy chorus, female vocal",
+  url: "https://suno.com/s/4zJcu5vV1VpD2fTq",
+  lyrics: `[Verse 1]
+현의 수직이등분선 그어 보면
+언제나 원의 중심을 지나가
+중심에서 같은 거리 두 개의 현
+길이도 똑같아, 잊지 마
+
+[Pre-Chorus]
+원 밖의 한 점에서 그은 두 접선
+그 길이는 언제나 같아
+접점에서 만난 반지름과 접선
+딱 90도로 서 있어
+
+[Chorus]
+원주각은 중심각의 반, 반, 반!
+같은 호 위의 원주각은 다 같아
+지름 위에 서 있으면 90도
+동그라미 속 비밀을 노래해
+
+[Verse 2]
+원에 내접한 사각형을 봐
+마주 보는 두 각 더하면 180
+접선과 현이 만드는 그 각은
+그 안쪽 원주각과 똑같아
+
+[Chorus] (반복)
+
+[Outro]
+돌고 돌아 다시 만난 원
+이제 시험도 두렵지 않아`
+};

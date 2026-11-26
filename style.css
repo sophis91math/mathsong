@@ -108,3 +108,11 @@ ol.howto code{font-family:var(--mono);font-size:13px;background:var(--mark);colo
 .empty{color:var(--muted);text-align:center;padding:24px 8px;border:1.5px dashed var(--line);border-radius:12px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media (max-width:480px){.w-name{width:100%}.step-b{padding:14px}}
+
+/* 완성 예시 */
+.example{background:var(--sheet);border:2px solid var(--accent);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.ex-head{display:flex;flex-direction:column;gap:2px}
+.ex-badge{align-self:flex-start;font-size:12px;font-weight:700;background:var(--accent);color:var(--accent-ink);padding:2px 10px;border-radius:999px}
+.ex-head h2{margin:4px 0 0;font-family:var(--display);font-weight:400;font-size:24px}
+.example details summary{cursor:pointer;font-weight:700}
+.ex-lyrics{white-space:pre-wrap;word-break:break-word;font-family:var(--body);font-size:14px;margin:8px 0 0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px}

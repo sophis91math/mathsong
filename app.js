@@ -1,5 +1,5 @@
 // 학생 화면: 단원·스타일 고르기, 가사 쓰기, Suno 안내, 패들렛 올리기
-import { UNITS, STYLES } from "./data.js";
+import { UNITS, STYLES, EXAMPLE } from "./data.js";
 import { PADLET_URL } from "./config.js";
 
 const TEMPLATE = "[Intro]\n\n[Verse]\n\n\n\n[Chorus]\n\n\n\n[Verse]\n\n\n\n[Chorus]\n\n\n\n[Bridge]\n\n\n[Chorus]\n\n\n[Outro]\n";
@@ -96,3 +96,13 @@ function updatePadletWhere(){
   else { w.textContent="1단계에서 반을 먼저 골라 주세요. 패들렛에는 자기 반 열에 올려야 해요."; w.className="notice warn"; }
 }
 $("cls").addEventListener("change",updatePadletWhere); updatePadletWhere();
+
+// 완성 예시
+(function(){
+  if(!EXAMPLE){ document.querySelector(".example").hidden=true; return; }
+  $("hEx").textContent="「"+EXAMPLE.title+"」";
+  $("exMeta").textContent="단원: "+EXAMPLE.unit;
+  $("exStyle").textContent=EXAMPLE.style;
+  $("exLyrics").textContent=EXAMPLE.lyrics;
+  $("exListen").href=EXAMPLE.url;
+})();
