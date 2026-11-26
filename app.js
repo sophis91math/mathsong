@@ -1,6 +1,6 @@
-// 학생 화면: 단원·스타일 고르기, 가사 쓰기, Suno 안내, Firebase로 제출
+// 학생 화면: 단원·스타일 고르기, 가사 쓰기, Suno 안내, 패들렛 올리기
 import { UNITS, STYLES } from "./data.js";
-import { firebaseConfig } from "./firebase-config.js";
+import { PADLET_URL } from "./config.js";
 
 const TEMPLATE = "[Intro]\n\n[Verse]\n\n\n\n[Chorus]\n\n\n\n[Verse]\n\n\n\n[Chorus]\n\n\n\n[Bridge]\n\n\n[Chorus]\n\n\n[Outro]\n";
 const DRAFT_KEY = "mathsong-draft-v1";
@@ -66,47 +66,24 @@ FIELDS.forEach(f=>$(f).addEventListener(f==="cls"?"change":"input",onInput));
 
 const unitName=id=>{ const u=UNITS.find(x=>x.id===id); return u?u.name:"(단원 미선택)"; };
 const namesLine=o=>[[o.num1,o.name1],[o.num2,o.name2]].filter(x=>x[1]).map(([n,m])=>(n?n+"번 ":"")+m).join(", ");
-const asText=o=>"3학년 "+(o.cls?o.cls+"반":"?반")+" / "+namesLine(o)+"\n단원: "+unitName(o.unit)+"\n제목: "+(o.title||"")+"\n스타일: "+(o.stylePrompt||"")+(o.sunoUrl?"\n노래 링크: "+o.sunoUrl:"")+"\n\n"+o.lyrics;
 
 $("cpLyrics").onclick=()=>{ const v=$("lyrics").value.trim(); if(!v){ toast("먼저 4단계에서 가사를 써 주세요"); return; } copy(v,"가사"); };
 $("cpStyle").onclick=()=>{ const v=$("stylePrompt").value.trim(); if(!v){ toast("먼저 3단계에서 스타일을 골라 주세요"); return; } copy(v,"스타일"); };
 $("cpTitle").onclick=()=>{ const v=$("title").value.trim(); if(!v){ toast("먼저 노래 제목을 써 주세요"); return; } copy(v,"제목"); };
-$("cpAll").onclick=()=>copy(asText(collect()),"제출 내용");
+
+// ---------- 패들렛 올리기 ----------
+$("padletLink").href = PADLET_URL || "https://padlet.com";
+function padletReady(){
+  const o=collect(); const msg=[];
+  if(!o.title) msg.push("4단계에서 노래 제목을 써 주세요.");
+  if(!o.lyrics.trim()) msg.push("4단계에서 가사를 써 주세요.");
+  if(!/^https:\/\//.test(o.sunoUrl)) msg.push("위 칸에 Suno 노래 링크(https://로 시작)를 넣어 주세요.");
+  const s=$("padletState"); s.textContent=msg.join(" "); s.hidden=!msg.length;
+  return msg.length?null:o;
+}
+const padTitle=o=>o.title+" ("+(o.cls?o.cls+"반 ":"")+[o.name1,o.name2].filter(Boolean).join("·")+")";
+const padBody=o=>"🎵 노래 듣기: "+o.sunoUrl+"\n단원: "+unitName(o.unit)+"\n스타일: "+(o.stylePrompt||"")+"\n\n"+o.lyrics;
+$("cpPadTitle").onclick=()=>{ const o=padletReady(); if(o) copy(padTitle(o),"패들렛 제목"); };
+$("cpPadBody").onclick=()=>{ const o=padletReady(); if(o) copy(padBody(o),"가사와 링크"); };
 
 loadDraft(); renderUnits(); renderStyles(); updateChecks();
-
-// ---------- Firebase 제출 ----------
-function setSubmitState(msg,warn){ const s=$("submitState"); s.textContent=msg; s.className="notice"+(warn?" warn":""); s.hidden=!msg; }
-const configured = firebaseConfig && firebaseConfig.projectId && !firebaseConfig.projectId.startsWith("여기에");
-let fs=null;
-async function getDb(){
-  if(fs) return fs;
-  const [{ initializeApp }, firestore] = await Promise.all([
-    import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"),
-    import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js")
-  ]);
-  const app = initializeApp(firebaseConfig);
-  fs = { db: firestore.getFirestore(app), ...firestore };
-  return fs;
-}
-if(!configured){ setSubmitState("아직 제출 기능이 설정되지 않았어요. ‘제출 내용 전체 복사’를 눌러 선생님이 알려 준 곳에 붙여넣어 주세요.",true); }
-
-$("submitBtn").onclick=async()=>{
-  if(!configured){ toast("제출 기능이 아직 설정되지 않았어요"); return; }
-  const o=collect();
-  if(!o.name1||!o.cls){ toast("1단계에서 반과 이름을 적어 주세요"); return; }
-  if(!o.unit){ toast("2단계에서 단원을 골라 주세요"); return; }
-  if(!o.lyrics.trim()){ toast("4단계에서 가사를 써 주세요"); return; }
-  if(o.lyrics.length>5000){ toast("가사가 너무 길어요. 3,000자 안으로 줄여 주세요"); return; }
-  if(o.sunoUrl&&!/^https:\/\//.test(o.sunoUrl)){ toast("노래 링크는 https:// 로 시작해야 해요"); return; }
-  const btn=$("submitBtn"); btn.disabled=true; btn.textContent="제출하는 중…";
-  try{
-    const f=await getDb();
-    await f.addDoc(f.collection(f.db,"submissions"),{ ...o, createdAt: f.serverTimestamp() });
-    setSubmitState("제출했어요! ("+new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"})+") 고칠 게 있으면 수정한 뒤 다시 제출하면 돼요.",false);
-    toast("제출 완료!");
-  }catch(e){
-    console.error(e);
-    setSubmitState("제출하지 못했어요. 인터넷 연결을 확인하고 다시 눌러 주세요. 계속 안 되면 ‘제출 내용 전체 복사’로 선생님께 보내 주세요.",true);
-  }finally{ btn.disabled=false; btn.textContent="가사 제출하기"; }
-};

@@ -89,7 +89,7 @@
           <li>아래 <b>가사 복사</b>를 눌러 <code>Lyrics</code> 칸에 붙여넣어요.</li>
           <li><b>스타일 복사</b>를 눌러 <code>Style of Music</code> 칸에 붙여넣어요.</li>
           <li><b>제목 복사</b>를 눌러 <code>Title</code> 칸에 붙여넣고 <code>Create</code>를 눌러요.</li>
-          <li>노래 두 곡이 나오면 들어 보고 마음에 드는 곡의 공유 링크(Share → Copy link)를 아래 6번에 붙여넣어요.</li>
+          <li>노래 두 곡이 나오면 들어 보고 마음에 드는 곡의 공유 링크(Share → Copy link)를 아래 6단계에 붙여넣어요.</li>
         </ol>
         <div class="copyrow">
           <button class="btn primary" id="cpLyrics">가사 복사</button>
@@ -101,17 +101,25 @@
       </div>
     </section>
 
-    <section class="step" aria-labelledby="h6s">
-      <div class="step-h"><span class="n">6</span><h2 id="h6s">선생님께 제출하기</h2></div>
+    <section class="step" aria-labelledby="h7s">
+      <div class="step-h"><span class="n">6</span><h2 id="h7s">완성한 노래를 패들렛에 올리기</h2></div>
       <div class="step-b">
-        <div class="field"><label for="sunoUrl">Suno 노래 링크 (만들었다면)</label>
+        <p class="hint">노래가 완성되면 반 친구들과 함께 듣도록 패들렛에 올려요.</p>
+        <div class="field"><label for="sunoUrl">Suno 노래 링크 (Share → Copy link 로 복사한 주소)</label>
           <input type="url" id="sunoUrl" maxlength="300" placeholder="https://suno.com/s/..."></div>
-        <div id="submitState" class="notice" hidden></div>
+        <ol class="howto">
+          <li>아래 <b>패들렛 열기</b>를 눌러요.</li>
+          <li>패들렛 오른쪽 아래 <code>+</code> 버튼을 눌러 새 게시물을 만들어요.</li>
+          <li><b>제목 복사</b> → 게시물 <code>제목</code> 칸에 붙여넣어요.</li>
+          <li><b>가사·링크 복사</b> → 게시물 <code>본문</code> 칸에 붙여넣어요. (노래 링크가 맨 위에 들어가요)</li>
+          <li><code>게시</code>를 누르면 끝!</li>
+        </ol>
+        <div id="padletState" class="notice warn" hidden></div>
         <div class="copyrow">
-          <button class="btn primary" id="submitBtn">가사 제출하기</button>
-          <button class="btn" id="cpAll">제출 내용 전체 복사</button>
+          <button class="btn primary" id="cpPadTitle">제목 복사</button>
+          <button class="btn primary" id="cpPadBody">가사·링크 복사</button>
+          <a class="btn" id="padletLink" href="#" target="_blank" rel="noopener">패들렛 열기 ↗</a>
         </div>
-        <p class="hint">고칠 게 있으면 고쳐서 다시 제출해도 돼요. 선생님은 가장 최근에 낸 것을 먼저 봐요. 노래 링크도 나중에 넣어서 다시 제출하면 돼요.</p>
       </div>
     </section>
   </main>
